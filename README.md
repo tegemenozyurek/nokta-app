@@ -72,6 +72,17 @@ Unlike existing booking platforms, our system:
 🔄 **Phase 5:** Multi-Language & Localization Features 
 
 ---
+## 🏗️ Technologies Used  
+### 🌐 **Frontend Technologies**  
+✅ **React Native (for Mobile)** – Cross-platform mobile development  
+✅ **React Router** – Page navigation and routing management  
+✅ **Expo** – Development environment for React Native applications  
+✅ **Axios** – HTTP client for API requests  
+✅ **Google Maps API** – Location-based service discovery  
+✅ **Rest API / Redux** – State management  
+✅ **JWT Authentication** – Secure user authentication  
+
+-----
 
 ## 📝 Final Thoughts
 Our **Personalized Web Application** transforms **service discovery and booking** into a smooth, user-friendly experience. By leveraging **location-based services, real-time communication, and automation**, we empower both users and businesses to **connect, interact, and grow** in a digital-first world.
