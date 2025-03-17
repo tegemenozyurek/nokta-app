@@ -18,6 +18,7 @@ const MENU_WIDTH = WINDOW_WIDTH * 0.7;
 
 export default function MainPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activePage, setActivePage] = useState('Home');
   const slideAnim = useRef(new Animated.Value(-MENU_WIDTH)).current;
 
   const toggleMenu = () => {
@@ -58,47 +59,63 @@ export default function MainPage() {
           </View>
           
           <View style={styles.menuItems}>
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="home-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Home</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="calendar-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Calendar</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="earth-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Browse</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="chatbubble-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Messages</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="person-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Profile</Text>
-            </TouchableOpacity>
-            
+            {[
+              { name: 'Home', icon: 'home-outline' },
+              { name: 'Calendar', icon: 'calendar-outline' },
+              { name: 'Browse', icon: 'earth-outline' },
+              { name: 'Messages', icon: 'chatbubble-outline' },
+              { name: 'Profile', icon: 'person-outline' }
+            ].map((item) => (
+              <TouchableOpacity 
+                key={item.name}
+                style={[
+                  styles.menuItem,
+                  activePage === item.name && styles.menuItemActive
+                ]}
+                onPress={() => setActivePage(item.name)}
+              >
+                <Ionicons 
+                  name={item.icon} 
+                  size={24} 
+                  color={activePage === item.name ? '#1A1A1A' : '#333'} 
+                />
+                <Text style={[
+                  styles.menuItemText,
+                  activePage === item.name && styles.menuItemTextActive
+                ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+
             <View style={styles.menuDivider} />
             
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="settings-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Settings</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="help-circle-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Help</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="log-out-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Logout</Text>
-            </TouchableOpacity>
+            {[
+              { name: 'Settings', icon: 'settings-outline' },
+              { name: 'Help', icon: 'help-circle-outline' },
+              { name: 'Logout', icon: 'log-out-outline' }
+            ].map((item) => (
+              <TouchableOpacity 
+                key={item.name}
+                style={[
+                  styles.menuItem,
+                  activePage === item.name && styles.menuItemActive
+                ]}
+                onPress={() => setActivePage(item.name)}
+              >
+                <Ionicons 
+                  name={item.icon} 
+                  size={24} 
+                  color={activePage === item.name ? '#1A1A1A' : '#333'} 
+                />
+                <Text style={[
+                  styles.menuItemText,
+                  activePage === item.name && styles.menuItemTextActive
+                ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </Animated.View>
@@ -290,5 +307,12 @@ const styles = StyleSheet.create({
     fontSize: Math.min(WINDOW_WIDTH * 0.035, 14),
     color: '#666666',
     marginBottom: WINDOW_HEIGHT * 0.01,
+  },
+  menuItemActive: {
+    backgroundColor: '#F0F0F0',
+  },
+  menuItemTextActive: {
+    color: '#1A1A1A',
+    fontWeight: '700',
   },
 });
