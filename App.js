@@ -1,6 +1,7 @@
 import { useState } from "react";
-import LoginPage from './LoginRegister/LoginPage';
-import RegisterPage from './LoginRegister/RegisterPage';
+// Update import paths to include full path from Pages directory
+import LoginPage from './Pages/LoginRegister/LoginPage';
+import RegisterPage from './Pages/LoginRegister/RegisterPage';
 import MainPage from "./MainPage";
 
 export default function App() {

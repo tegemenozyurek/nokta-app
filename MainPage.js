@@ -11,6 +11,13 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useRef } from 'react';
+import Home from './Pages/MenuItems/Home';
+import Calendar from './Pages/MenuItems/Calendar';
+import Browse from './Pages/MenuItems/Browse';
+import Messages from './Pages/MenuItems/Messages';
+import Profile from './Pages/MenuItems/Profile';
+import Settings from './Pages/MenuItems/Settings';
+import Help from './Pages/MenuItems/Help';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -29,6 +36,27 @@ export default function MainPage() {
       useNativeDriver: true,
     }).start();
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const renderPage = () => {
+    switch(activePage) {
+      case 'Home':
+        return <Home />;
+      case 'Calendar':
+        return <Calendar />;
+      case 'Browse':
+        return <Browse />;
+      case 'Messages':
+        return <Messages />;
+      case 'Profile':
+        return <Profile />;
+      case 'Settings':
+        return <Settings />;
+      case 'Help':
+        return <Help />;
+      default:
+        return <Home />;
+    }
   };
 
   return (
@@ -128,13 +156,7 @@ export default function MainPage() {
       </View>
 
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.logo}>NOKTA</Text>
-        <Text style={styles.welcomeText}>Welcome to Nokta!</Text>
-        
-        <View style={styles.content}>
-          <Text style={styles.contentText}>Your main content goes here</Text>
-        </View>
-        
+        {renderPage()}
         <StatusBar style="dark" />
       </ScrollView>
     </SafeAreaView>
@@ -309,10 +331,9 @@ const styles = StyleSheet.create({
     marginBottom: WINDOW_HEIGHT * 0.01,
   },
   menuItemActive: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: '#E0E0E0',
   },
   menuItemTextActive: {
     color: '#1A1A1A',
-    fontWeight: '700',
   },
 });
