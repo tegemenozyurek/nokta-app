@@ -1,50 +1,25 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { useState } from 'react';
 
-export default function RegisterPage({ onRegister, switchToLogin }) {
-  const [name, setName] = useState('');
-  const [surname, setSurname] = useState('');
+export default function LoginPage({ onLogin, switchToRegister }) {
+  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleRegister = () => {
-    if (!name || !surname || !email || !password || !confirmPassword) {
-      Alert.alert('Error', 'Please fill all fields');
-      return;
+  const handleLogin = () => {
+    if (email === 'egemen@gmail.com' && password === '12345') {
+      onLogin();
+    } else {
+      Alert.alert('Error', 'Invalid email or password');
     }
-
-    if (password !== confirmPassword) {
-      Alert.alert('Error', 'Passwords do not match');
-      return;
-    }
-
-    // Here you would typically make an API call to register
-    onRegister();
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.logo}>NOKTA</Text>
-      <Text style={styles.title}>Create Account</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-        autoCapitalize="words"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Surname"
-        value={surname}
-        onChangeText={setSurname}
-        autoCapitalize="words"
-      />
-
+      <Text style={styles.title}>{isLogin ? 'Welcome Back!' : 'Create Account'}</Text>
+      
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -53,7 +28,7 @@ export default function RegisterPage({ onRegister, switchToLogin }) {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-
+      
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -62,22 +37,20 @@ export default function RegisterPage({ onRegister, switchToLogin }) {
         secureTextEntry
       />
 
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
-
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+      <TouchableOpacity 
+        style={styles.button}
+        onPress={handleLogin}
+      >
+        <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-
-      <TouchableOpacity onPress={switchToLogin}>
-        <Text style={styles.switchText}>Already have an account? Sign In</Text>
+      
+      <TouchableOpacity 
+        style={styles.switchButton}
+        onPress={switchToRegister}
+      >
+        <Text style={styles.switchButtonText}>Create Account</Text>
       </TouchableOpacity>
-
+      
       <StatusBar style="auto" />
     </View>
   );
@@ -136,10 +109,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  switchText: {
+  switchButton: {
+    marginTop: 16,
+  },
+  switchButtonText: {
     color: '#666666',
     fontSize: 16,
     fontWeight: '500',
-    marginTop: 16,
-  },
+  }
 });

@@ -11,6 +11,13 @@ import {
 import { StatusBar } from 'expo-status-bar';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useRef } from 'react';
+import Home from './Pages/MenuItems/Home';
+import Calendar from './Pages/MenuItems/Calendar';
+import Browse from './Pages/MenuItems/Browse';
+import Messages from './Pages/MenuItems/Messages';
+import Profile from './Pages/MenuItems/Profile';
+import Settings from './Pages/MenuItems/Settings';
+import Help from './Pages/MenuItems/Help';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -18,6 +25,7 @@ const MENU_WIDTH = WINDOW_WIDTH * 0.7;
 
 export default function MainPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activePage, setActivePage] = useState('Home');
   const slideAnim = useRef(new Animated.Value(-MENU_WIDTH)).current;
 
   const toggleMenu = () => {
@@ -28,6 +36,27 @@ export default function MainPage() {
       useNativeDriver: true,
     }).start();
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const renderPage = () => {
+    switch(activePage) {
+      case 'Home':
+        return <Home />;
+      case 'Calendar':
+        return <Calendar />;
+      case 'Browse':
+        return <Browse />;
+      case 'Messages':
+        return <Messages />;
+      case 'Profile':
+        return <Profile />;
+      case 'Settings':
+        return <Settings />;
+      case 'Help':
+        return <Help />;
+      default:
+        return <Home />;
+    }
   };
 
   return (
@@ -58,47 +87,63 @@ export default function MainPage() {
           </View>
           
           <View style={styles.menuItems}>
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="home-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Home</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="calendar-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Calendar</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="earth-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Browse</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="chatbubble-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Messages</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="person-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Profile</Text>
-            </TouchableOpacity>
-            
+            {[
+              { name: 'Home', icon: 'home-outline' },
+              { name: 'Calendar', icon: 'calendar-outline' },
+              { name: 'Browse', icon: 'earth-outline' },
+              { name: 'Messages', icon: 'chatbubble-outline' },
+              { name: 'Profile', icon: 'person-outline' }
+            ].map((item) => (
+              <TouchableOpacity 
+                key={item.name}
+                style={[
+                  styles.menuItem,
+                  activePage === item.name && styles.menuItemActive
+                ]}
+                onPress={() => setActivePage(item.name)}
+              >
+                <Ionicons 
+                  name={item.icon} 
+                  size={24} 
+                  color={activePage === item.name ? '#1A1A1A' : '#333'} 
+                />
+                <Text style={[
+                  styles.menuItemText,
+                  activePage === item.name && styles.menuItemTextActive
+                ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+
             <View style={styles.menuDivider} />
             
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="settings-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Settings</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="help-circle-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Help</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity style={styles.menuItem}>
-              <Ionicons name="log-out-outline" size={24} color="#333" />
-              <Text style={styles.menuItemText}>Logout</Text>
-            </TouchableOpacity>
+            {[
+              { name: 'Settings', icon: 'settings-outline' },
+              { name: 'Help', icon: 'help-circle-outline' },
+              { name: 'Logout', icon: 'log-out-outline' }
+            ].map((item) => (
+              <TouchableOpacity 
+                key={item.name}
+                style={[
+                  styles.menuItem,
+                  activePage === item.name && styles.menuItemActive
+                ]}
+                onPress={() => setActivePage(item.name)}
+              >
+                <Ionicons 
+                  name={item.icon} 
+                  size={24} 
+                  color={activePage === item.name ? '#1A1A1A' : '#333'} 
+                />
+                <Text style={[
+                  styles.menuItemText,
+                  activePage === item.name && styles.menuItemTextActive
+                ]}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       </Animated.View>
@@ -111,13 +156,7 @@ export default function MainPage() {
       </View>
 
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.logo}>NOKTA</Text>
-        <Text style={styles.welcomeText}>Welcome to Nokta!</Text>
-        
-        <View style={styles.content}>
-          <Text style={styles.contentText}>Your main content goes here</Text>
-        </View>
-        
+        {renderPage()}
         <StatusBar style="dark" />
       </ScrollView>
     </SafeAreaView>
@@ -290,5 +329,11 @@ const styles = StyleSheet.create({
     fontSize: Math.min(WINDOW_WIDTH * 0.035, 14),
     color: '#666666',
     marginBottom: WINDOW_HEIGHT * 0.01,
+  },
+  menuItemActive: {
+    backgroundColor: '#E0E0E0',
+  },
+  menuItemTextActive: {
+    color: '#1A1A1A',
   },
 });
